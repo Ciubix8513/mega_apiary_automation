@@ -13,6 +13,8 @@ for i in inputs_1 do
   j = j + 1
 end
 
+table.sort(inputs)
+
 -- Server configuration
 local item_list = {
   -- Item name, priority, lower redstone signal threshold, upper RST
@@ -28,6 +30,7 @@ local port = 1234
 
 local restocking_index = 0
 
+
 local function start_restock(index)
   print(string.format("Out of %s", item_list[index][1]))
   computer.beep()
@@ -39,12 +42,13 @@ end
 while true do
   -- Iterate over all the redstone IOs
   for _, i in pairs(inputs) do
-    redstone = component.proxy(i)
+    local redstone = component.proxy(i)
 
     -- if restocking, don't check the item
     if i == restocking_index then
       -- If the item has been restocked enough, stop restocking and go into checking mode
       if redstone.getInput(input_side) >= item_list[i][4] then
+        print(string.format("Finished restocking %s", item_list[restocking_index][1]))
         restocking_index = 0
       else
         -- I hate how lua doesn't have fucking continue
