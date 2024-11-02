@@ -1,5 +1,5 @@
 -- Tries to send a message, and waits for an acknowledgment from the other side
-function broadcast_message(src_port, dst_port, message, timeout)
+local function broadcast_message(src_port, dst_port, message, timeout)
   local component = require("component")
   local event = require("event")
   -- get the modem
@@ -48,7 +48,7 @@ function broadcast_message(src_port, dst_port, message, timeout)
   return false
 end
 
-function recieve_message(port)
+local function recieve_message(port)
   local component = require("component")
   local event = require("event")
 
@@ -80,10 +80,15 @@ function recieve_message(port)
     if dst_port == nil then goto continue end
 
     -- Send ACK msg
-    modem.send(src, dst_port, "ACK")
-
-    return msg
+    if modem.send(src, dst_port, "ACK") then
+      return msg
+    end
 
     ::continue::
   end
 end
+
+return {
+  broadcast_message = broadcast_message,
+  recieve_message = recieve_message
+}
