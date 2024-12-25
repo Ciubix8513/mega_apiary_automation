@@ -142,13 +142,12 @@ local function recieve_message(port)
 
     -- Send ACK msg
     if modem.send(msg_src, dst_port, "ACK", "MEW") then
+      modem.close(1)
       return msg_o
     end
 
     ::continue::
   end
-
-  modem.close(1)
 end
 
 return {
