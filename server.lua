@@ -8,7 +8,7 @@ local inputs = {}
 print("Redstone io list:")
 local j = 1
 for i in inputs_1 do
-  print(i)
+  print(j, i)
   inputs[j] = i
   j = j + 1
 end
@@ -42,6 +42,12 @@ end
 while true do
   -- Iterate over all the redstone IOs
   for _, i in pairs(inputs) do
+    -- Skip redstone inputs that don't have an item assigned
+    if item_list[i] == nil then
+      goto continue
+    end
+
+
     local redstone = component.proxy(i)
 
     -- if restocking, don't check the item
@@ -55,7 +61,6 @@ while true do
         goto continue
       end
     end
-
 
     if redstone.getInput(input_side) < item_list[i][3] then
       -- If nothing is being restocked, start restocking
