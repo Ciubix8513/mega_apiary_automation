@@ -45,7 +45,7 @@ end
 
 -- Disable the apiary
 local function stop_restock()
-  networking.broadcast_message(src_port, port, "STOP", 0.1)
+  networking.broadcast_message(src_port, port, "STOP", 1)
 end
 
 

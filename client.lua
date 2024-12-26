@@ -30,7 +30,9 @@ local function go_home()
 end
 
 local function check_screwdriver()
-  if robot.durability() ~= nil then
+  -- kinda scuffed, but it works
+  local _, m = robot.durability()
+  if m == "tool cannot be damaged" then
     -- The screwdriver still has some uses in it
     return;
   end
@@ -130,6 +132,7 @@ while true do
     switch_apiary_mode()
     -- And turn the apiary on for the final time
     toggle_apiary()
+    apiary_state = true
 
     go_home()
   end
