@@ -56,16 +56,23 @@ local function move_to(pos)
 end
 
 local function go_to_waypoint(name, range)
-  local waypoints = component.navigation.findWaypoints(range)
-  local target_pos = { 0, 0, 0 }
+  while true do
+    local waypoints = component.navigation.findWaypoints(range)
+    local target_pos = { 0, 0, 0 }
 
-  for _, w in pairs(waypoints) do
-    if w.label == name then
-      target_pos = w.position
+    for _, w in pairs(waypoints) do
+      if w.label == name then
+        target_pos = w.position
+      end
     end
-  end
 
-  move_to(target_pos)
+    -- loop until reached the end
+    if target_pos[1] == 0 and target_pos[2] == 0 and target_pos[3] == 0 then
+      return;
+    end
+
+    move_to(target_pos)
+  end
 end
 
 return {
