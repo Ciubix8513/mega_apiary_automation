@@ -2,14 +2,48 @@ local component = require("component")
 local sides = require("sides")
 local robot = require("robot")
 
--- Pretty inefficient, but SHOULD work
 local function rotate_to(target)
-  while true do
-    local facing = component.navigation.getFacing()
-    if facing == target then
-      return
+  local facing = component.navigation.getFacing()
+  if facing == target then
+    return
+  end
+  if target == sides.posx then
+    if facing == sides.negx then
+      robot.turnAround()
+    elseif facing == sides.posz then
+      robot.turnLeft()
+    else
+      -- neg z
+      robot.turnRight()
     end
-    robot.turnRight()
+  elseif target == sides.posz then
+    if facing == sides.negz then
+      robot.turnAround()
+    elseif facing == sides.posx then
+      robot.turnRight()
+    else
+      -- neg x
+      robot.turnLeft()
+    end
+  elseif target == sides.negz then
+    if facing == sides.posz then
+      robot.turnAround()
+    elseif facing == sides.posx then
+      robot.turnLeft()
+    else
+      -- neg x
+      robot.turnRight()
+    end
+  else
+    -- negx
+    if facing == sides.posx then
+      robot.turnAround()
+    elseif facing == sides.posz then
+      robot.turnRight()
+    else
+      -- neg z
+      robot.turnLeft()
+    end
   end
 end
 
