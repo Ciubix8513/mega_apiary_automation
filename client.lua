@@ -31,8 +31,8 @@ end
 
 local function check_screwdriver()
   -- kinda scuffed, but it works
-  local _, m = robot.durability()
-  if m == "tool cannot be damaged" then
+  local d, _ = robot.durability()
+  if d ~= nil then
     -- The screwdriver still has some uses in it
     return;
   end
